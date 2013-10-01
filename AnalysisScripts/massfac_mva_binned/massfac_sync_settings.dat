@@ -14,3 +14,5 @@ bkgPolOrderByCat=3,3,3
 phoidMvaCut=-10
 bdtCategoryBoundaries=1,-1
 doSystematics=0
+
+scaleClusterShapes=0
