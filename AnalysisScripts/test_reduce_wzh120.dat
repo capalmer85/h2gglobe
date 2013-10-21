@@ -1,0 +1,10 @@
+output=local.root
+    
+CaDir=/store/group/phys_higgs/cmshgg/processed/V15_00_08/mc/Summer12_RD1/WH_ZH_HToGG_M-120_8TeV-pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v2 typ=-1 
+#Fil=root://eoscms//eos/cms/store/group/phys_higgs/cmshgg/processed/V15_00_08/mc/Summer12_RD1/WH_ZH_HToGG_M-120_8TeV-pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v2/WH_ZH_HToGG_M-120_8TeV-pythia6_Summer12_DR53X-PU_RD1_START53_V7N-v2_5_1_wCy.root typ=-1
+
+analyzer PhotonAnalysis photonanalysis.dat common/reduction_settings_jan22rereco_rd_mc.dat
+
+inputBranches reduction_input.dat
+outputBranches reduction_output.dat
+        
