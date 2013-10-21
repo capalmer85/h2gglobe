@@ -399,6 +399,9 @@ Float_t LoopAll::diphotonMVA(Int_t leadingPho, Int_t subleadingPho, Int_t vtx, f
     float mass     = Higgs.M();
     float diphopt   = Higgs.Pt();
 
+    std::cout<<"idType "<<idType<<std::endl;
+    std::cout<<"bdtType "<<bdtType<<std::endl;
+    std::cout<<"id1 id2 "<<photonID_1<<" "<<photonID_2<<std::endl;
     if (idType == "UCSD") {
         tmva_dipho_UCSD_leadr9 = pho_r9[leadingPho];
         tmva_dipho_UCSD_subleadr9 = pho_r9[subleadingPho];
@@ -422,27 +425,55 @@ Float_t LoopAll::diphotonMVA(Int_t leadingPho, Int_t subleadingPho, Int_t vtx, f
         tmva_dipho_MIT_ptom2 = subleadPt/mass;
         tmva_dipho_MIT_eta1 = leadP4.Eta();
         tmva_dipho_MIT_eta2 =  subleadP4.Eta();
-	tmva_dipho_MIT_dphi = TMath::Cos(leadP4.Phi() - subleadP4.Phi());
+	      tmva_dipho_MIT_dphi = TMath::Cos(leadP4.Phi() - subleadP4.Phi());
       
         if (photonID_1 < -1. && photonID_2 < -1.) {
-	  if (bdtType == "MIT") {
-		  tmva_dipho_MIT_ph1mva = photonIDMVA2013(leadingPho,vtx, leadP4, "MIT");
-		  tmva_dipho_MIT_ph2mva = photonIDMVA2013(subleadingPho,vtx, subleadP4, "MIT");
-	  } else if (bdtType == "Old7TeV") {
-		  tmva_dipho_MIT_ph1mva = photonIDMVA2012(leadingPho,vtx, leadP4, "MIT");
-		  tmva_dipho_MIT_ph2mva = photonIDMVA2012(subleadingPho,vtx, subleadP4, "MIT");
-	  } else if (bdtType == "Moriond2013") {
-		  tmva_dipho_MIT_ph1mva = photonIDMVA2011(leadingPho,vtx, leadP4, "MIT");
-		  tmva_dipho_MIT_ph2mva = photonIDMVA2012(subleadingPho,vtx, subleadP4, "MIT");
-	  } else {
-	    std::cerr << "No valid BDT type..." << std::endl;
-	  }
+            std::cout<<"idType "<<idType<<std::endl;
+            std::cout<<"bdtType "<<bdtType<<std::endl;
+            tmva_dipho_MIT_ph1mva=photonIDMVA(leadingPho,vtx, leadP4, bdtType);
+            tmva_dipho_MIT_ph2mva=photonIDMVA(subleadingPho,vtx, leadP4, bdtType);
+	          //if (bdtType == "MIT") {
+		        //    tmva_dipho_MIT_ph1mva = photonIDMVA2013(leadingPho,vtx, leadP4, "MIT");
+		        //    tmva_dipho_MIT_ph2mva = photonIDMVA2013(subleadingPho,vtx, subleadP4, "MIT");
+	          //} else if (bdtType == "Old7TeV") {
+		        //    tmva_dipho_MIT_ph1mva = photonIDMVA2012(leadingPho,vtx, leadP4, "MIT");
+		        //    tmva_dipho_MIT_ph2mva = photonIDMVA2012(subleadingPho,vtx, subleadP4, "MIT");
+	          //} else if (bdtType == "Moriond2013") {
+		        //    tmva_dipho_MIT_ph1mva = photonIDMVA2011(leadingPho,vtx, leadP4, "MIT");
+		        //    tmva_dipho_MIT_ph2mva = photonIDMVA2012(subleadingPho,vtx, subleadP4, "MIT");
+	          //} else {
+	          //    std::cerr << "No valid BDT type..." << std::endl;
+	          //}
         } else {
-	  tmva_dipho_MIT_ph1mva = photonID_1;
-	  tmva_dipho_MIT_ph2mva = photonID_2;
+	          tmva_dipho_MIT_ph1mva = photonID_1;
+	          tmva_dipho_MIT_ph2mva = photonID_2;
         }
 	
-	mva = tmvaReader_dipho_MIT->EvaluateMVA("Gradient");
+        tmva_dipho_MIT_dmom=0.0109338364132535;
+        tmva_dipho_MIT_dmom_wrong_vtx=0.0268453359996079; 
+        tmva_dipho_MIT_vtxprob = 0.996821045875549;
+        tmva_dipho_MIT_ptom1 = 0.684928866305423;
+        tmva_dipho_MIT_ptom2 = 0.429907978863882;
+        tmva_dipho_MIT_eta1 =    1.9667466878891;
+        tmva_dipho_MIT_eta2 =   1.16757369041443;
+        tmva_dipho_MIT_dphi = -0.361343274807382;
+        tmva_dipho_MIT_ph1mva =0.0594217628240585;
+        tmva_dipho_MIT_ph2mva = 0.179005026817322;
+	      mva = tmvaReader_dipho_MIT->EvaluateMVA("Gradient");
+
+        std::cout<<"diphoton mva inputs"<<std::endl;
+        std::cout<<"lead sublead"<<leadingPho<<" "<<subleadingPho<<std::endl;
+        std::cout<<tmva_dipho_MIT_dmom          <<std::endl;
+        std::cout<<tmva_dipho_MIT_dmom_wrong_vtx<<std::endl;
+        std::cout<<tmva_dipho_MIT_vtxprob       <<std::endl;
+        std::cout<<tmva_dipho_MIT_ptom1         <<std::endl;
+        std::cout<<tmva_dipho_MIT_ptom2         <<std::endl;
+        std::cout<<tmva_dipho_MIT_eta1          <<std::endl;
+        std::cout<<tmva_dipho_MIT_eta2          <<std::endl;
+        std::cout<<tmva_dipho_MIT_dphi          <<std::endl;
+        std::cout<<tmva_dipho_MIT_ph1mva        <<std::endl;
+        std::cout<<tmva_dipho_MIT_ph2mva        <<std::endl;
+        std::cout<<mva<<std::endl;
     }
 
     return mva;

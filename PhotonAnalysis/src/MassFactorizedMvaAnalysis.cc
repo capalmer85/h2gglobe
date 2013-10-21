@@ -520,7 +520,8 @@ float MassFactorizedMvaAnalysis::GetDiphoMva(LoopAll & l, int diphotonId, bool d
     float vtxProb = -1;
 
     ComputeDiphoMvaInputs(l, phoid_mvaout_lead, phoid_mvaout_sublead, vtxProb, diphotonId);
-            
+    
+    std::cout<<"computed phoid mvas "<<phoid_mvaout_lead<<" "<<phoid_mvaout_sublead<<std::endl;
     int selectioncategory = l.DiphotonCategory(l.dipho_leadind[diphotonId],l.dipho_subleadind[diphotonId],Higgs.Pt(),
                                                 nEtaCategories,nR9Categories);
    
@@ -545,6 +546,7 @@ float MassFactorizedMvaAnalysis::GetDiphoMva(LoopAll & l, int diphotonId, bool d
             }
         }
         idmvascale = (TGraph*)idmvascaleFile->Get(histname);
+        std::cout<<"APPLYING IDMVA CORRECTION"<<std::endl;
         phoid_mvaout_lead = idmvascale->Eval(phoid_mvaout_lead);
 
         if (fabs(sublead_p4.Eta())<1.479) {
@@ -562,6 +564,7 @@ float MassFactorizedMvaAnalysis::GetDiphoMva(LoopAll & l, int diphotonId, bool d
         }
         idmvascale = (TGraph*)idmvascaleFile->Get(histname);
         phoid_mvaout_sublead = idmvascale->Eval(phoid_mvaout_sublead);
+        std::cout<<"corrected phoid mvas "<<phoid_mvaout_lead<<" "<<phoid_mvaout_sublead<<std::endl;
     }
     
     return l.diphotonMVA(l.dipho_leadind[diphotonId],l.dipho_subleadind[diphotonId],l.dipho_vtxind[diphotonId] ,
@@ -948,6 +951,8 @@ bool MassFactorizedMvaAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float wei
               << "\tpho1_s4Ratio:"              <<  l.pho_s4ratio[diphoton_index.first]
               << "\tpho1_ESEffSigmaRR:"         <<  l.pho_ESEffSigmaRR[diphoton_index.first]
               << "\tpho1_scRawE:"               <<  l.sc_raw[l.pho_scind[diphoton_index.first]]
+              << "\tpho1_e2x5:"                 <<  l.pho_e2x5max[diphoton_index.first]
+              << "\tpho1_idMVA:"                <<  phoid_mvaout_lead
 
               << "\tpho2_ind:"                  <<  diphoton_index.second
               << "\tpho2_scInd:"                <<  l.pho_scind[diphoton_index.second]
@@ -973,6 +978,8 @@ bool MassFactorizedMvaAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float wei
               << "\tpho2_s4Ratio:"              <<  l.pho_s4ratio[diphoton_index.second]
               << "\tpho2_ESEffSigmaRR:"         <<  l.pho_ESEffSigmaRR[diphoton_index.second]
               << "\tpho2_scRawE:"               <<  l.sc_raw[l.pho_scind[diphoton_index.second]]
+              << "\tpho2_e2x5:"                 <<  l.pho_e2x5max[diphoton_index.second]
+              << "\tpho2_idMVA:"                <<  phoid_mvaout_sublead
 
               << "\tmass:"                      <<  mass 
               << "\trVtxSigmaMoM:"              <<  sigmaMrv/mass 
@@ -981,7 +988,8 @@ bool MassFactorizedMvaAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float wei
               << "\tpho2_ptOverM:"              <<  sublead_p4.Pt()/mass
               << "\tvtxIndex:"                  <<  l.dipho_vtxind[diphoton_id]
               << "\tvtxProb:"                   <<  vtxProb 
-              << "\tcosDPhi:"                   <<  TMath::Cos(lead_p4.Phi() - sublead_p4.Phi());
+              << "\tcosDPhi:"                   <<  TMath::Cos(lead_p4.Phi() - sublead_p4.Phi())
+              << "\tdiphoMVA:"                  <<  diphobdt_output;
 
         // Vertex MVA
             vtxAna_.setPairID(diphoton_id);
@@ -1031,7 +1039,7 @@ bool MassFactorizedMvaAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float wei
                     << "\tdijet_dEta:"          <<  -999
                     << "\tdijet_Zep:"           <<  -999
                     << "\tdijet_dPhi:"          <<  -999
-                    << "\tdijet_Mjj:"           <<  -999;
+                    << "\tdijet_mass:"          <<  -999;
             }
 
 
@@ -2077,9 +2085,11 @@ void MassFactorizedMvaAnalysis::ComputeDiphoMvaInputs(LoopAll &l, float &phoid_m
                                     diphoton_id,massResoPars,nR9Categories,nEtaCategories,beamspotSigma);
     
     float vtx_mva  = l.vtx_std_evt_mva->at(diphoton_id);
-    sigmaMrv = massResolutionCalculator->massResolutionEonly();
-    sigmaMwv = massResolutionCalculator->massResolutionWrongVtx();
+    sigmaMrv = massResolutionCalculator->massResolutionEonlyNoSmear();
+    sigmaMwv = massResolutionCalculator->massResolutionWrongVtxNoSmear();
     
+    //std::cout<<"ComputeDiphoMvaInputs rv sigma, wv sigma "<<sigmaMrv<<" "<<sigmaMwv<<std::endl;
+
     vtxAna_.setPairID(diphoton_id); 
     vtxProb = vtxAna_.vertexProbability(vtx_mva);
     

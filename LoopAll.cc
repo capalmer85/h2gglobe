@@ -1072,8 +1072,27 @@ int LoopAll::FillAndReduce(int jentry) {
   //
   // read all inputs 
   //
-  if(!makeDummyTrees){
+  bool keep=false;
+
+  b_run->GetEntry(jentry);
+  b_lumis->GetEntry(jentry);
+  b_event->GetEntry(jentry);
+  //if(event==34283 && lumis==68 && run==200519){
+  //if(event==19288 && lumis==39 && run==206859){
+  //if(event==69289 && lumis==138 && run==200519){
+  //if(event==75715 && lumis==150 && run==194533){
+  if(event==12737 && lumis==26 && run==194533){
+  //if(1){
+  //if(event==70088 && lumis==139 && run==200519){
+    std::cout<<"run lumis event "<<run<<" "<<lumis<<" "<<event<<std::endl;
+    keep=true;
+  }
+
+  if(!makeDummyTrees && keep){
+  //if(!makeDummyTrees){
     GetEntry(inputBranches, jentry);
+  } else{
+    return hasoutputfile;
   }
 
   //b_run->GetEntry(jentry);

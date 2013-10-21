@@ -6021,8 +6021,23 @@ void PhotonAnalysis::GetRegressionCorrectionsV5(LoopAll &l){
         else {
             //preshower energy ratio (endcap only)
             _vals[27]  = l.sc_pre[sc_index]/l.sc_raw[sc_index];
+            _vals[28] = 0;
+            _vals[29] = 0;
+            _vals[30] = 0;
+            _vals[31] = 0;
+            _vals[32] = 0;
+            _vals[33] = 0;
+            _vals[34] = 0;
+            _vals[35] = 0;
             
         }
+
+        
+        for(int ival=0; ival<36; ival++){
+            std::cout<<std::setprecision(10)<<_vals[ival]<<std::endl;
+        }
+        std::cout<<std::setprecision(10)<<bcpos->Eta()<<std::endl<<sc->Eta()<<std::endl;
+        std::cout<<std::setprecision(10)<<bcpos->Phi()<<std::endl<<sc->Phi()<<std::endl;
 
         double den;
         HybridGBRForest *forest;  
@@ -6048,6 +6063,8 @@ void PhotonAnalysis::GetRegressionCorrectionsV5(LoopAll &l){
         ecor = den/_meanlim->getVal();
         ecorerr = _sigmalim->getVal()*ecor;
 
+        std::cout<<ecor<<std::endl<<ecorerr<<std::endl<<std::endl;
+        
         cbalpha1 = 2.0;  //alpha hardcoded in this version of the regression
         cbn1 = _n1lim->getVal();
         cbalpha2 = 1.0;  //alpha hardcoded in this version of the regression
