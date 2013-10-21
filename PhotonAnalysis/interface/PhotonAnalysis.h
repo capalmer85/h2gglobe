@@ -99,6 +99,7 @@ class PhotonAnalysis : public BaseAnalysis
     int nMuonCategories;
     bool includeVHmet;  //met at analysis step
     int nMetCategories;
+    bool moriond2013MetCorrection;
 
     bool reRunCiCForData;
     bool reComputeCiCPF;
@@ -177,6 +178,8 @@ class PhotonAnalysis : public BaseAnalysis
     float diphobdt_output_Cut_TTHhad;
     float diphobdt_output_Cut_VHhadBtag;
     float diphobdt_output_Cut_VHhad;
+    float diphobdt_output_Cut_VHLep;
+    float diphobdt_output_Cut_VHMet;
 
     bool optimizeMVA;
 
@@ -454,6 +457,8 @@ class PhotonAnalysis : public BaseAnalysis
     bool VBFTag2011(LoopAll& l, int diphoton_id, float* smeared_pho_energy=0, bool nm1=false, float eventweight=1, float myweight=1);
     // VHhadronic Tag
     bool VHhadronicTag2011(LoopAll& l, int& diphoton_id, float* smeared_pho_energy=0, bool *jetid_flags=0,bool mvaselection=false,bool vetodipho=false, bool kinonly=false);
+    // VHhadronic Tag
+    bool VHhadronicTag2012(LoopAll& l, int& diphoton_id, float* smeared_pho_energy=0, bool *jetid_flags=0,bool mvaselection=false,bool vetodipho=false, bool kinonly=false);
     // VH category w btag
     bool VHhadronicBtag2012(LoopAll& l, int& diphoton_id, float* smeared_pho_energy=0, bool *jetid_flags=0,bool mvaselection=false,bool vetodipho=false, bool kinonly=false);
     //TTH leptonic category

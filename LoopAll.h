@@ -102,7 +102,8 @@ class LoopAll {
 				  int type, int histtoindfromfiles, int histoplotit,
 				  int nred, long long ntot, float intlumi,
 				  float lumi, float xsec, float kfactor,
-				  float scale, int forceVersion=0, 
+				  float scale, bool ignoreEvWeight=false,
+				  int forceVersion=0, 
 				  bool addnevents=false, TString pileup="");
 
   void Term(); 
@@ -1231,9 +1232,9 @@ void PhotonsToVeto(TLorentzVector* veto_p4, float drtoveto, std::vector<bool>& v
 int ElectronSelectionMVA2012_nocutOnMVA(float elptcut);
 bool ElectronMVACuts_nocutOnMVA(int el_ind, int vtx_ind);
 //HCP2012
-TLorentzVector METCorrection2012B(TLorentzVector lead_p4, TLorentzVector sublead_p4);
+TLorentzVector METCorrection2012B(TLorentzVector lead_p4, TLorentzVector sublead_p4, bool moriond2013MetCorrection);
 //bool METAnalysis2012B(float MET);
-bool METAnalysis2012B(TLorentzVector lead_p4, TLorentzVector sublead_p4, bool useUncor, bool doMETCleaning=true );
+bool METAnalysis2012B(TLorentzVector lead_p4, TLorentzVector sublead_p4, bool useUncor, bool doMETCleaning=true, bool moriond2013MetCorrection=false);
 bool METCleaning2012B(TLorentzVector& lead_p4, TLorentzVector& sublead_p4, TLorentzVector& myMet);
 
 //~ICHEP2012
@@ -1264,9 +1265,9 @@ void getIetaIPhi(int phoid, int & ieta, int & iphi ) const ;
 bool CheckSphericalPhoton(int ieta, int iphi) const;
 bool CheckSphericalPhoton(int phoind) const;
 
-void VHNewLeptonCategorization(bool & VHlep1event, bool & VHlep2event, int diphotonVHlep_id, int vertex, bool VHelevent_prov, bool VHmuevent_prov, int el_ind, int mu_ind, float* smeared_pho_energy, float METcut);
-void VHTwoMuonsEvents(bool & VHlep1event, bool & VHlep2event, int & diphotonVHlep_id, int & muVtx, float* smeared_pho_energy, float leadEtVHlepCut, float subleadEtVHlepCut, bool applyPtoverM);
-void VHTwoElectronsEvents(bool & VHlep1event, bool & VHlep2event, int & diphotonVHlep_id, int & elVtx, float* smeared_pho_energy, float leadEtVHlepCut, float subleadEtVHlepCut, bool applyPtoverM);
+void VHNewLeptonCategorization(bool & VHlep1event, bool & VHlep2event, int diphotonVHlep_id, int vertex, bool VHelevent_prov, bool VHmuevent_prov, int el_ind, int mu_ind, float* smeared_pho_energy, float METcut, bool moriond2013MetCorrection);
+void VHTwoMuonsEvents(bool & VHlep1event, bool & VHlep2event, int & diphotonVHlep_id, int & muVtx, float* smeared_pho_energy, float leadEtVHlepCut, float subleadEtVHlepCut, bool applyPtoverM, bool mvaselection, float diphobdt_output_Cut_VHLep, float phoidMvaCut, bool vetodipho, bool kinonly, const char * type);
+void VHTwoElectronsEvents(bool & VHlep1event, bool & VHlep2event, int & diphotonVHlep_id, int & elVtx, float* smeared_pho_energy, float leadEtVHlepCut, float subleadEtVHlepCut, bool applyPtoverM, bool mvaselection, float diphobdt_output_Cut_VHLep, float phoidMvaCut, bool vetodipho, bool kinonly, const char * type);
  
 private:
   Float_t photonIDMVA2012(Int_t, Int_t, TLorentzVector &, const char*);

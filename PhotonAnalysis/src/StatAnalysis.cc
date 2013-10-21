@@ -49,6 +49,9 @@ StatAnalysis::StatAnalysis()  :
     splitwzh=false;
     sigmaMrv=0.;
     sigmaMwv=0.;
+
+    doInterferenceSmear=false;
+    doCosThetaDependentInterferenceSmear=false;
 }
 
 // ----------------------------------------------------------------------------------------------------
@@ -263,10 +266,10 @@ void StatAnalysis::Init(LoopAll& l)
         ptSpinSmearer->init();
         genLevelSmearers_.push_back(ptSpinSmearer);
     }
-    if(doInterferenceSmear) {
+    if(doInterferenceSmear || doCosThetaDependentInterferenceSmear) {
         // interference efficiency
         std::cerr << __LINE__ << std::endl;
-        interferenceSmearer = new InterferenceSmearer( l.normalizer(), 2.5e-2,0.);
+        interferenceSmearer = new InterferenceSmearer( l.normalizer(), &genCosTheta, !doCosThetaDependentInterferenceSmear, 2.5e-2,0., interferenceHist); 
         genLevelSmearers_.push_back(interferenceSmearer);
     }
 
@@ -842,6 +845,9 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
     // do gen-level dependent first (e.g. k-factor); only for signal
     genLevWeight=1.;
     if(cur_type!=0 ) {
+        if (doCosThetaDependentInterferenceSmear) {
+            genCosTheta = getCosThetaCS(*((TLorentzVector*)l.gh_pho1_p4->At(0)),*((TLorentzVector*)l.gh_pho2_p4->At(0)),l.sqrtS);
+        }
         applyGenLevelSmearings(genLevWeight,gP4,l.pu_n,cur_type,genSys,syst_shift);
     }
 
@@ -993,7 +999,7 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
         }
 
         if(includeVHhad) {
-            VHhadevent = VHhadronicTag2011(l, diphotonVHhad_id, &smeared_pho_energy[0]);
+            VHhadevent = VHhadronicTag2012(l, diphotonVHhad_id, &smeared_pho_energy[0]);
         }
 
         if(includeVHhadBtag) {
@@ -1329,7 +1335,7 @@ bool StatAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentz
             }
 
             if(VHmetevent){
-                TLorentzVector myMet = l.METCorrection2012B(lead_p4, sublead_p4); 
+                TLorentzVector myMet = l.METCorrection2012B(lead_p4, sublead_p4, moriond2013MetCorrection); 
                 float corrMet    = myMet.Pt();
                 float corrMetPhi = myMet.Phi();
 
@@ -1605,7 +1611,7 @@ void StatAnalysis::computeExclusiveCategory(LoopAll & l, int & category, std::pa
 
 void StatAnalysis::computeSpinCategory(LoopAll &l, int &category, TLorentzVector lead_p4, TLorentzVector sublead_p4){
 
-    double cosTheta;
+    //double cosTheta;
     int cosThetaCategory=-1;
     if (cosThetaDef=="CS"){
         cosTheta = getCosThetaCS(lead_p4,sublead_p4,l.sqrtS);
@@ -1696,7 +1702,7 @@ void StatAnalysis::fillControlPlots(const TLorentzVector & lead_p4, const  TLore
             l.FillHist("pho_rawe",category+1,l.sc_raw[l.pho_scind[l.dipho_leadind[diphoton_id]]], evweight);
             l.FillHist("pho_rawe",category+1,l.sc_raw[l.pho_scind[l.dipho_subleadind[diphoton_id]]], evweight);
 
-            TLorentzVector myMet = l.METCorrection2012B(lead_p4, sublead_p4);
+            TLorentzVector myMet = l.METCorrection2012B(lead_p4, sublead_p4, moriond2013MetCorrection);
             float corrMet    = myMet.Pt();
             float corrMetPhi = myMet.Phi();
 

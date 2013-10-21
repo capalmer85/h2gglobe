@@ -43,7 +43,10 @@ subleadEtVBFCut=30
 ##  sliding pt/m > 1/4 in mass fac to match event bdt training
 subleadEtVHlepCut=30
 subleadEtVHmetCut=30
-
+subleadEtTTHhadCut=30
+subleadEtTTHlepCut=30
+subleadEtVHhadCut=30
+subleadEtVHhadBtagCut=30
 
 # choose between UCSD and MIT trainings
 bdtTrainingPhilosophy=MIT
@@ -62,7 +65,7 @@ eventLevelMvaMIT=aux/HggBambu_SMDipho_Oct01_redqcdweightallsigevenbkg_BDTG.weigh
 #bkgPolOrderByCat=5,5,5,5,4,4,3,3,3 MORIOND13
 #tth and vhhad categories added
 #bkgPolOrderByCat=5,5,5,5,4,4,3,3,3,-10,2,3,3
-bkgPolOrderByCat=5,5,5,5,3,4,4,3,3,3,-10,2,3,3
+bkgPolOrderByCat=5,5,5,5,3,4,4,3,3,3,-10,2,3
 
 # photon ID preselection
 phoidMvaCut=-0.2
