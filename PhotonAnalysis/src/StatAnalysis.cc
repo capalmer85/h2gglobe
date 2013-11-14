@@ -1613,12 +1613,13 @@ void StatAnalysis::computeExclusiveCategory(LoopAll & l, int & category, std::pa
         if(nVHmetCategories>1) category+=VHmetevent_cat;
     } else if(TTHhadevent) {
         category=nInclusiveCategories_ + ( (int)includeVBF )*nVBFCategories +  nVHlepCategories + nVHmetCategories+nTTHlepCategories;
-	 if(PADEBUG) cout<<"TTHhad: "<<category<<endl;
+        if(PADEBUG) cout<<"TTHhad: "<<category<<endl;
     }else if(VHhadBtagevent) {
         category=nInclusiveCategories_ + ( (int)includeVBF )*nVBFCategories +  nVHlepCategories + nVHmetCategories + nTTHlepCategories + nTTHhadCategories;
     } else if(VHhadevent) {
         category=nInclusiveCategories_ + ( (int)includeVBF )*nVBFCategories +  nVHlepCategories + nVHmetCategories + nTTHlepCategories + nTTHhadCategories+nVHhadBtagCategories;
     }
+    if(PADEBUG) cout<<"Exclusive cat: "<<category<<endl;
 }
 
 void StatAnalysis::computeSpinCategory(LoopAll &l, int &category, TLorentzVector lead_p4, TLorentzVector sublead_p4){

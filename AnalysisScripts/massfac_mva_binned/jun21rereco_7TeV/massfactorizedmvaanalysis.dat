@@ -1,68 +1,11 @@
-leadEtCut=40.0
-subleadEtCut=30.0
-
-leadEtVBFCut=55
-subleadEtVBFCut=30
-
 usePUjetveto=0
-
-massMin=100.
-massMax=180.
-nDataBins=160
-
-nEtaCategories=2
-nR9Categories=2
-
-scaleR9Only=0
-
-doTriggerSelection=1 
-reRunCiCForData=1
-
-includeVBF=1
-
-# smearing
-doMCSmearing=1 
-
-doEcorrectionSmear=1
-doEcorrectionSyst=0
-
-doEscaleSmear=1
-doEscaleSyst=1
-
-doEresolSmear=1
-doEresolSyst=1
-
-doRegressionSmear=1
-doRegressionSyst=1
-
-doPhotonIdEffSyst=0
-doPhotonIdEffSmear=0
-#1
-#1
 
 doVtxEffSyst=1
 doVtxEffSmear=1
 
-doTriggerEffSmear=1
-doTriggerEffSyst=1
-
-doPhotonMvaIdSmear=0 
-#1
-doPhotonMvaIdSyst=0
-#1
-doR9Smear=0
-doR9Syst=0
-
-doKFactorSmear=0
-doKFactorSyst=0
-#1
-#1
-
 # BDTs
 bdtTrainingPhilosophy=MIT
 bdtTrainingType=2013_7TeV
-photonLevelMvaUCSD=aux/ID_UCSD.weights.xml
-eventLevelMvaUCSD=aux/diphoton_UCSD.weights.xml
 photonLevel2013IDMVA_EB=
 photonLevel2013IDMVA_EE=
 photonLevel2012IDMVA_EB=
@@ -73,8 +16,6 @@ photonLevel2013_7TeV_IDMVA_EB=aux/2013FinalPaper_PhotonID_Barrel_BDT_TrainRangeP
 photonLevel2013_7TeV_IDMVA_EE=aux/2013FinalPaper_PhotonID_Endcap_BDT_TrainRangePT15_7TeV.weights.xml
 eventLevelMvaMIT=aux/HggBambu_SMDipho_Oct29_rwgtptallsigevenbkg7TeV_BDTG.weights.xml
 
-combinedmvaVbfSelection=1
-mvaVbfSelection=1
 mvaVbfWeights=aux/TMVA_dijet_7TeV_evenb_v1_ptrwght_Gradient.weights.xml
 mvaVbfMethod=Gradient
 mvaVbfDiphoWeights=aux/TMVA_vbf_dijet_dipho_2evenb_maxdPhi_7TeV_v1_Gradient.weights.xml
@@ -87,15 +28,13 @@ multiclassVbfCatBoundaries1=1.0,0.934,0.62
 multiclassVbfCatBoundaries2=10.,-10.
 
 bkgPolOrderByCat=5,5,5,5,3,4,3,3,3,-10,3
-
 bdtCategoryBoundaries=1,0.97,0.92,0.78,0.42
 
-# photon ID preselection
-phoidMvaCut=-0.2
-
-effPhotonCategoryType=3CatR9_EBEE
-effPhotonNCat=6
 # FIXME
 efficiencyFileMVA=aux/sig_reweighing_legacy_run2011_cutbased_v3.root
 
+smearing_file=jun21rereco_7TeV/smearing_sigma_and_errors.dat
+
+mass_resol_file=
+puTargets=
 

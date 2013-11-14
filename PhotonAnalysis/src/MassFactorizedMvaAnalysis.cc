@@ -748,11 +748,11 @@ bool MassFactorizedMvaAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float wei
 
         if(includeVBF) {   
             if (combinedmvaVbfSelection) {
-		diphotonVBF_id = l.DiphotonMITPreSelection(bdtTrainingType.c_str(),leadEtVBFCut,subleadEtVBFCut,phoidMvaCut,applyPtoverM,
-							   &smeared_pho_energy[0], vetodipho, kinonly );
+                diphotonVBF_id = l.DiphotonMITPreSelection(bdtTrainingType.c_str(),leadEtVBFCut,subleadEtVBFCut,phoidMvaCut,applyPtoverM,  
+                                                            &smeared_pho_energy[0], vetodipho, kinonly );
                 float eventweight = weight * smeared_pho_weight[l.dipho_leadind[diphotonVBF_id]] * smeared_pho_weight[l.dipho_subleadind[diphotonVBF_id]] * genLevWeight;
                 float myweight=1.;
-		if(eventweight*sampleweight!=0) myweight=eventweight/sampleweight;
+                if(eventweight*sampleweight!=0) myweight=eventweight/sampleweight;
                 VBFevent = VBFTag2013(vbfIjet1, vbfIjet2, l, diphotonVBF_id, &smeared_pho_energy[0], vetodipho, kinonly, true, eventweight, myweight);
             } else {
                 diphotonVBF_id = l.DiphotonMITPreSelection(bdtTrainingType.c_str(),leadEtVBFCut,subleadEtVBFCut,phoidMvaCut,applyPtoverM, 
@@ -762,17 +762,17 @@ bool MassFactorizedMvaAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float wei
                 if(eventweight*sampleweight!=0) myweight=eventweight/sampleweight;
                 
                 VBFevent= ( run7TeV4Xanalysis ? 
-			    VBFTag2011(l, diphotonVBF_id, &smeared_pho_energy[0], true, eventweight, myweight) :
-			    VBFTag2012(vbfIjet1, vbfIjet2, l, diphotonVBF_id, &smeared_pho_energy[0], true, eventweight, myweight) );
+                    VBFTag2011(l, diphotonVBF_id, &smeared_pho_energy[0], true, eventweight, myweight) :
+                    VBFTag2012(vbfIjet1, vbfIjet2, l, diphotonVBF_id, &smeared_pho_energy[0], true, eventweight, myweight) );
             }
         }
 
         if(includeTTHlep){
-	    if(!(l.sqrtS==7)){
-		TTHlepevent = TTHleptonicTag2012(l, diphotonTTHlep_id, &smeared_pho_energy[0], 0, true, vetodipho, kinonly);
-	    }else{
-		TTHlepevent = TTHTag7TeV(l, diphotonTTHlep_id, &smeared_pho_energy[0], 0, true, vetodipho, kinonly);
-	    }
+            if(!(l.sqrtS==7)){
+                TTHlepevent = TTHleptonicTag2012(l, diphotonTTHlep_id, &smeared_pho_energy[0], 0, true, vetodipho, kinonly);
+            }else{
+                TTHlepevent = TTHTag7TeV(l, diphotonTTHlep_id, &smeared_pho_energy[0], 0, true, vetodipho, kinonly);
+            }
         }
 
         if(includeTTHhad) {
@@ -841,8 +841,8 @@ bool MassFactorizedMvaAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float wei
         // For Zee validation, reweight MC pT distribution to match data 
         if( l.runZeeValidation && cur_type != 0) {
             if (zeePtBinLowEdge.size() != zeePtWeight.size()) {
-		std::cout << "Array size mismatch: zeePtBinLowEdge[" << zeePtBinLowEdge.size()
-			  << "], zeePtWeight[" << zeePtWeight.size() << "]" <<diphoton_id << std::endl;
+                std::cout << "Array size mismatch: zeePtBinLowEdge[" << zeePtBinLowEdge.size()
+                    << "], zeePtWeight[" << zeePtWeight.size() << "]" <<diphoton_id << std::endl;
             }
             for (int i=0; i<zeePtBinLowEdge.size(); i++) {
                 float zeePtBinHighEdge = 999.;
@@ -888,13 +888,13 @@ bool MassFactorizedMvaAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float wei
         float diphobdt_output_down=-1.;
         if (l.runZeeValidation) {
             diphobdt_output_up = l.diphotonMVA(-1,diphoton_index.first,diphoton_index.second,l.dipho_vtxind[diphoton_id] ,
-					       vtxProb,lead_p4,sublead_p4,sigmaMrv,sigmaMwv,sigmaMrv,
-					       bdtTrainingPhilosophy.c_str(),bdtTrainingType.c_str(),
-					       phoid_mvaout_lead+idMVASystSize,phoid_mvaout_sublead+idMVASystSize);
+                                vtxProb,lead_p4,sublead_p4,sigmaMrv,sigmaMwv,sigmaMrv,
+                                bdtTrainingPhilosophy.c_str(),bdtTrainingType.c_str(),
+                                phoid_mvaout_lead+idMVASystSize,phoid_mvaout_sublead+idMVASystSize);
             diphobdt_output_down = l.diphotonMVA(-1,diphoton_index.first,diphoton_index.second,l.dipho_vtxind[diphoton_id] ,
-						 vtxProb,lead_p4,sublead_p4,sigmaMrv,sigmaMwv,sigmaMrv,
-						 bdtTrainingPhilosophy.c_str(),bdtTrainingType.c_str(),
-						 phoid_mvaout_lead-idMVASystSize,phoid_mvaout_sublead-idMVASystSize);
+                                vtxProb,lead_p4,sublead_p4,sigmaMrv,sigmaMwv,sigmaMrv,
+                                bdtTrainingPhilosophy.c_str(),bdtTrainingType.c_str(),
+                                phoid_mvaout_lead-idMVASystSize,phoid_mvaout_sublead-idMVASystSize);
         }
 
         bool isEBEB  = fabs(lead_p4.Eta() < 1.4442 ) && fabs(sublead_p4.Eta()<1.4442);
@@ -924,16 +924,16 @@ bool MassFactorizedMvaAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float wei
         }
 
         if (PADEBUG) std::cout << " Diphoton Category " <<category <<std::endl;
-	if(includeTTHlep || includeTTHhad){
-	    bool isMC = l.itype[l.current]!=0;
-	    if(isMC && applyBtagSF ){
-		if (category==nInclusiveCategories_ + ( (int)includeVBF )*nVBFCategories +  nVHlepCategories +  nVHmetCategories ||
-		    category==nInclusiveCategories_ + ( (int)includeVBF )*nVBFCategories +  nVHlepCategories + nVHmetCategories+nTTHlepCategories){//tth categories
-		    evweight*=BtagReweight(l,shiftBtagEffUp_bc,shiftBtagEffDown_bc,shiftBtagEffUp_l,shiftBtagEffDown_l,1);
-		}
-	    }
-	}
-	
+        if(includeTTHlep || includeTTHhad){
+            bool isMC = l.itype[l.current]!=0;
+            if(isMC && applyBtagSF ){
+                if (category==nInclusiveCategories_ + ( (int)includeVBF )*nVBFCategories +  nVHlepCategories +  nVHmetCategories ||
+                    category==nInclusiveCategories_ + ( (int)includeVBF )*nVBFCategories +  nVHlepCategories + nVHmetCategories+nTTHlepCategories){//tth categories
+                    evweight*=BtagReweight(l,shiftBtagEffUp_bc,shiftBtagEffDown_bc,shiftBtagEffUp_l,shiftBtagEffDown_l,1);
+                }
+            }
+        }
+
         // sanity check
         assert( evweight >= 0. ); 
 

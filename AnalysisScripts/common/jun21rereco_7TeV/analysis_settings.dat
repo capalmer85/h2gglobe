@@ -1,12 +1,4 @@
 run7TeV4Xanalysis=0
-applyPtoverM=1
-
-## Di-jet tag
-includeVBF=1
-nVBFEtaCategories=1
-nVBFDijetJetCategories=1
-leadEtVBFCut=55
-subleadEtVBFCut=25
 
 usePUjetveto=0
 
@@ -34,18 +26,6 @@ removeBtagtth=0
 applyLeptonSF=0
 applyBtagSF=0
 
-## Leptonic TTH tag
-includeTTHlep=1
-leadEtTTHlepCut=60
-subleadEtTTHlepCut=25
-diphobdt_output_Cut_TTHlep=-0.6
-deltaRPholep_cut=0
-doMinvCut=0
-doDrGsfTrackCut=1
-drSC_lep=0.5
-drGsf_lep=1.
-doApplyEleVeto=0 
-
 ## Hadronic V tag
 includeVHhad=1
 nVHhadEtaCategories=1
@@ -71,7 +51,6 @@ ptjet_btag_cut=25.
 includeVHlep=0
 includeVHlepPlusMet=1
 leadEtVHlepCut=45
-#subleadEtVHlepCut=30
 nElectronCategories=1 
 nMuonCategories=1 
 diphobdt_output_Cut_VHLep=-0.6
@@ -79,7 +58,6 @@ diphobdt_output_Cut_VHLep=-0.6
 ## MET tag
 includeVHmet=1
 leadEtVHmetCut=45
-#subleadEtVHmetCut=30
 nMetCategories=1 
 moriond2013MetCorrection=0
 diphobdt_output_Cut_VHMet=0.
@@ -123,10 +101,10 @@ recorrectJets=0
 rerunJetMva=0
 recomputeJetWp=0
 
-reRunVtx=0
+reRunVtx=1
 rematchConversions=0
 
-# vertex
+## vertex
 vtxAlgoParams jan16reload/vertex_selection.dat
 mvaVertexSelection=1
 addConversionToMva=1
